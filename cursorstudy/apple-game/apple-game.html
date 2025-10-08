@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사과 게임</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .game-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 95vw;
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .game-title {
+            text-align: center;
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .score {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .timer {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .selected-sum {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #27ae60;
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(15, 35px);
+            gap: 2px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f0f8ff;
+            border-radius: 15px;
+            border: 3px solid #3498db;
+            min-width: fit-content;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .apple {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            user-select: none;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+            min-width: 35px;
+            min-height: 35px;
+        }
+
+        .apple:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .apple.selected {
+            background: linear-gradient(45deg, #f39c12, #f1c40f);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(243, 156, 18, 0.6);
+        }
+
+        .apple.removing {
+            animation: removeApple 0.5s ease-out forwards;
+        }
+
+        .apple.removed {
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        @keyframes removeApple {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.3);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+
+        .apple::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background: #8b4513;
+            border-radius: 50%;
+        }
+
+        .apple::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 45%;
+            width: 15px;
+            height: 8px;
+            background: #228b22;
+            border-radius: 0 0 0 100%;
+            transform: rotate(-20deg);
+        }
+
+        .drag-area {
+            position: absolute;
+            background: rgba(52, 152, 219, 0.3);
+            border: 2px dashed #3498db;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .game-controls {
+            text-align: center;
+        }
+
+        .reset-btn {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .instructions {
+            margin-top: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .celebration {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            color: #f39c12;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: celebration 1s ease-out;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .game-over {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 2em;
+            z-index: 2000;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .game-over h2 {
+            margin-bottom: 20px;
+            color: #e74c3c;
+        }
+
+        .final-score {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            color: #f39c12;
+        }
+
+        .restart-btn {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .pause-btn {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-left: 10px;
+        }
+
+        .pause-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .pause-btn.paused {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+        }
+
+        .apple.hidden {
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes celebration {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 1200px) {
+            .game-board {
+                grid-template-columns: repeat(15, 30px);
+                gap: 1px;
+                padding: 8px;
+            }
+            
+            .apple {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .game-container {
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            .game-title {
+                font-size: 2em;
+            }
+            
+            .game-board {
+                grid-template-columns: repeat(15, 25px);
+                gap: 1px;
+                padding: 6px;
+            }
+            
+            .apple {
+                width: 25px;
+                height: 25px;
+                font-size: 0.8em;
+            }
+            
+            .game-info {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-board {
+                grid-template-columns: repeat(15, 20px);
+                gap: 1px;
+                padding: 4px;
+            }
+            
+            .apple {
+                width: 20px;
+                height: 20px;
+                font-size: 0.7em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1 class="game-title">🍎 사과 게임 🍎</h1>
+        
+        <div class="game-info">
+            <div class="score">점수: <span id="score">0</span></div>
+            <div class="timer">시간: <span id="timer">60</span>초</div>
+            <div class="selected-sum">선택된 합: <span id="selectedSum">0</span></div>
+        </div>
+
+        <div class="game-board" id="gameBoard">
+            <!-- 사과들이 여기에 동적으로 생성됩니다 -->
+        </div>
+
+        <div class="game-controls">
+            <button class="reset-btn" onclick="resetGame()">게임 리셋</button>
+            <button class="pause-btn" id="pauseBtn" onclick="togglePause()">일시정지</button>
+        </div>
+
+        <div class="instructions">
+            <p>마우스로 드래그하여 사과를 선택하세요!</p>
+            <p>선택한 사과들의 숫자 합이 10이 되면 사과가 사라집니다.</p>
+            <p>많은 사과를 없애서 높은 점수를 획득하세요!</p>
+        </div>
+    </div>
+
+    <script>
+        class AppleGame {
+            constructor() {
+                this.gameBoard = document.getElementById('gameBoard');
+                this.scoreElement = document.getElementById('score');
+                this.timerElement = document.getElementById('timer');
+                this.selectedSumElement = document.getElementById('selectedSum');
+                this.score = 0;
+                this.selectedApples = [];
+                this.isDragging = false;
+                this.dragStart = { x: 0, y: 0 };
+                this.dragArea = null;
+                this.timeLeft = 60;
+                this.gameTimer = null;
+                this.isGameOver = false;
+                this.isPaused = false;
+                
+                this.initGame();
+                this.setupEventListeners();
+            }
+
+            initGame() {
+                this.gameBoard.innerHTML = '';
+                this.score = 0;
+                this.timeLeft = 60;
+                this.isGameOver = false;
+                this.isPaused = false;
+                this.updateScore();
+                this.updateTimer();
+                
+                // 기존 타이머가 있다면 정리
+                if (this.gameTimer) {
+                    clearInterval(this.gameTimer);
+                }
+                
+                // 1-9 숫자를 가진 사과들을 랜덤하게 생성 (15x10 = 150개)
+                const numbers = [];
+                const totalApples = 150;
+                const numbersPerDigit = Math.floor(totalApples / 9);
+                const remainder = totalApples % 9;
+                
+                for (let i = 1; i <= 9; i++) {
+                    const count = numbersPerDigit + (i <= remainder ? 1 : 0);
+                    for (let j = 0; j < count; j++) {
+                        numbers.push(i);
+                    }
+                }
+                
+                // 숫자들을 랜덤하게 섞기
+                for (let i = numbers.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+                }
+                
+                // 사과들 생성
+                numbers.forEach((number, index) => {
+                    const apple = document.createElement('div');
+                    apple.className = 'apple';
+                    apple.textContent = number;
+                    apple.dataset.number = number;
+                    apple.dataset.index = index;
+                    this.gameBoard.appendChild(apple);
+                });
+                
+                // 게임 타이머 시작
+                this.startTimer();
+            }
+
+            setupEventListeners() {
+                this.gameBoard.addEventListener('mousedown', this.startDrag.bind(this));
+                this.gameBoard.addEventListener('mousemove', this.drag.bind(this));
+                this.gameBoard.addEventListener('mouseup', this.endDrag.bind(this));
+                this.gameBoard.addEventListener('mouseleave', this.endDrag.bind(this));
+            }
+
+            startTimer() {
+                this.gameTimer = setInterval(() => {
+                    if (!this.isPaused && !this.isGameOver) {
+                        this.timeLeft--;
+                        this.updateTimer();
+                        
+                        if (this.timeLeft <= 0) {
+                            this.endGame();
+                        }
+                    }
+                }, 1000);
+            }
+
+            togglePause() {
+                if (this.isGameOver) return;
+                
+                this.isPaused = !this.isPaused;
+                const pauseBtn = document.getElementById('pauseBtn');
+                
+                if (this.isPaused) {
+                    pauseBtn.textContent = '계속하기';
+                    pauseBtn.classList.add('paused');
+                    this.hideAllApples();
+                } else {
+                    pauseBtn.textContent = '일시정지';
+                    pauseBtn.classList.remove('paused');
+                    this.showAllApples();
+                }
+            }
+
+            hideAllApples() {
+                const apples = this.gameBoard.querySelectorAll('.apple');
+                apples.forEach(apple => {
+                    if (!apple.classList.contains('removed')) {
+                        apple.classList.add('hidden');
+                    }
+                });
+            }
+
+            showAllApples() {
+                const apples = this.gameBoard.querySelectorAll('.apple');
+                apples.forEach(apple => {
+                    if (!apple.classList.contains('removed')) {
+                        apple.classList.remove('hidden');
+                    }
+                });
+            }
+
+            updateTimer() {
+                this.timerElement.textContent = this.timeLeft;
+                
+                // 시간이 10초 이하일 때 빨간색으로 변경
+                if (this.timeLeft <= 10) {
+                    this.timerElement.style.color = '#e74c3c';
+                } else {
+                    this.timerElement.style.color = '#3498db';
+                }
+            }
+
+            endGame() {
+                this.isGameOver = true;
+                clearInterval(this.gameTimer);
+                this.showGameOver();
+            }
+
+            showGameOver() {
+                const gameOverDiv = document.createElement('div');
+                gameOverDiv.className = 'game-over';
+                gameOverDiv.innerHTML = `
+                    <h2>🎮 게임 종료! 🎮</h2>
+                    <div class="final-score">최종 점수: ${this.score}점</div>
+                    <button class="restart-btn" onclick="resetGame()">다시 시작</button>
+                `;
+                document.body.appendChild(gameOverDiv);
+            }
+
+            startDrag(e) {
+                if (this.isGameOver || this.isPaused) return;
+                
+                if (e.target.classList.contains('apple')) {
+                    this.isDragging = true;
+                    this.dragStart = { x: e.clientX, y: e.clientY };
+                    this.selectedApples = [];
+                    this.updateSelectedSum();
+                    
+                    // 드래그 영역 생성
+                    this.dragArea = document.createElement('div');
+                    this.dragArea.className = 'drag-area';
+                    document.body.appendChild(this.dragArea);
+                    
+                    this.selectApple(e.target);
+                }
+            }
+
+            drag(e) {
+                if (!this.isDragging || this.isGameOver || this.isPaused) return;
+                
+                const rect = this.gameBoard.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // 드래그 영역 업데이트
+                const left = Math.min(this.dragStart.x - rect.left, x);
+                const top = Math.min(this.dragStart.y - rect.top, y);
+                const width = Math.abs(x - (this.dragStart.x - rect.left));
+                const height = Math.abs(y - (this.dragStart.y - rect.top));
+                
+                this.dragArea.style.left = (rect.left + left) + 'px';
+                this.dragArea.style.top = (rect.top + top) + 'px';
+                this.dragArea.style.width = width + 'px';
+                this.dragArea.style.height = height + 'px';
+                
+                // 드래그 영역과 겹치는 사과들 선택
+                const apples = this.gameBoard.querySelectorAll('.apple');
+                apples.forEach(apple => {
+                    const appleRect = apple.getBoundingClientRect();
+                    const isOverlapping = !(left > appleRect.right - rect.left || 
+                                          left + width < appleRect.left - rect.left || 
+                                          top > appleRect.bottom - rect.top || 
+                                          top + height < appleRect.top - rect.top);
+                    
+                    if (isOverlapping && !apple.classList.contains('selected') && !apple.classList.contains('removed') && apple.dataset.number !== '0') {
+                        this.selectApple(apple);
+                    } else if (!isOverlapping && apple.classList.contains('selected')) {
+                        this.deselectApple(apple);
+                    }
+                });
+            }
+
+            endDrag(e) {
+                if (!this.isDragging || this.isGameOver || this.isPaused) return;
+                
+                this.isDragging = false;
+                
+                // 드래그 영역 제거
+                if (this.dragArea) {
+                    document.body.removeChild(this.dragArea);
+                    this.dragArea = null;
+                }
+                
+                // 선택된 사과들의 합이 10인지 확인
+                this.checkForMatch();
+            }
+
+            selectApple(apple) {
+                if (!apple.classList.contains('selected') && !apple.classList.contains('removed') && apple.dataset.number !== '0') {
+                    apple.classList.add('selected');
+                    this.selectedApples.push(apple);
+                    this.updateSelectedSum();
+                }
+            }
+
+            deselectApple(apple) {
+                if (apple.classList.contains('selected')) {
+                    apple.classList.remove('selected');
+                    const index = this.selectedApples.indexOf(apple);
+                    if (index > -1) {
+                        this.selectedApples.splice(index, 1);
+                    }
+                    this.updateSelectedSum();
+                }
+            }
+
+            updateSelectedSum() {
+                const sum = this.selectedApples.reduce((total, apple) => {
+                    return total + parseInt(apple.dataset.number);
+                }, 0);
+                this.selectedSumElement.textContent = sum;
+            }
+
+            checkForMatch() {
+                const sum = this.selectedApples.reduce((total, apple) => {
+                    return total + parseInt(apple.dataset.number);
+                }, 0);
+                
+                if (sum === 10) {
+                    this.removeSelectedApples();
+                    this.showCelebration();
+                } else {
+                    this.clearSelection();
+                }
+            }
+
+            removeSelectedApples() {
+                const removedCount = this.selectedApples.length;
+                
+                this.selectedApples.forEach(apple => {
+                    apple.classList.add('removing');
+                    setTimeout(() => {
+                        // 사과를 완전히 제거하지 않고 숨김 처리
+                        apple.classList.remove('removing');
+                        apple.classList.add('removed');
+                        apple.textContent = '';
+                        apple.dataset.number = '0';
+                    }, 500);
+                });
+                
+                this.score += removedCount;
+                this.updateScore();
+                
+                // 선택된 사과들을 즉시 배열에서 제거
+                this.selectedApples = [];
+                this.updateSelectedSum();
+            }
+
+            clearSelection() {
+                this.selectedApples.forEach(apple => {
+                    apple.classList.remove('selected');
+                });
+                this.selectedApples = [];
+                this.updateSelectedSum();
+            }
+
+            updateScore() {
+                this.scoreElement.textContent = this.score;
+            }
+
+            showCelebration() {
+                const celebration = document.createElement('div');
+                celebration.className = 'celebration';
+                celebration.textContent = '🎉 +' + this.selectedApples.length + '점! 🎉';
+                document.body.appendChild(celebration);
+                
+                setTimeout(() => {
+                    if (celebration.parentNode) {
+                        celebration.parentNode.removeChild(celebration);
+                    }
+                }, 1000);
+            }
+
+            reset() {
+                // 게임 오버 화면 제거
+                const gameOverDiv = document.querySelector('.game-over');
+                if (gameOverDiv) {
+                    gameOverDiv.remove();
+                }
+                
+                // 멈춤 상태 초기화
+                this.isPaused = false;
+                const pauseBtn = document.getElementById('pauseBtn');
+                pauseBtn.textContent = '일시정지';
+                pauseBtn.classList.remove('paused');
+                
+                this.initGame();
+            }
+        }
+
+        // 게임 초기화
+        let game = new AppleGame();
+
+        function resetGame() {
+            game.reset();
+        }
+
+        function togglePause() {
+            game.togglePause();
+        }
+    </script>
+</body>
+</html>

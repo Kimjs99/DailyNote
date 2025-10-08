@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>김민수 - 소프트웨어 개발자</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 네비게이션 -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="#home">김민수</a>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">소개</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#experience" class="nav-link">경험</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#work" class="nav-link">프로젝트</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">연락</a>
+                </li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 메인 히어로 섹션 -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <p class="hero-greeting">안녕하세요, 제 이름은</p>
+                <h1 class="hero-title">김민수입니다.</h1>
+                <h2 class="hero-subtitle">사용자에게 가치 있는 서비스를 제공하는</h2>
+                <h2 class="hero-subtitle highlight">소프트웨어 개발자</h2>
+                <p class="hero-description">
+                    대학에서 컴퓨터공학을 전공하며 프로그래밍의 기초를 다졌고, 
+                    졸업 후 2년간 스타트업에서 웹 개발 업무를 담당했습니다. 
+                    빠르게 변화하는 IT 업계에서 새로운 기술을 학습하고 적용하는 것에 큰 흥미를 느끼며, 
+                    특히 사용자 경험을 개선하는 기술적 솔루션을 찾는 것을 좋아합니다.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#work" class="btn btn-primary">프로젝트 보기</a>
+                    <a href="#contact" class="btn btn-secondary">연락하기</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="profile-card">
+                    <div class="profile-avatar">
+                        <div class="avatar-bg"></div>
+                        <img src="P.png" alt="김민수 프로필" class="profile-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- 소개 섹션 -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">01.</span>
+                <h2 class="section-title">소개</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>안녕하세요! 저는 사용자에게 가치 있는 서비스를 제공하고 싶은 김민수입니다.</p>
+                    <p>대학에서 컴퓨터공학을 전공하며 프로그래밍의 기초를 다졌고, 졸업 후 2년간 스타트업에서 웹 개발 업무를 담당했습니다. 빠르게 변화하는 IT 업계에서 새로운 기술을 학습하고 적용하는 것에 큰 흥미를 느끼며, 특히 사용자 경험을 개선하는 기술적 솔루션을 찾는 것을 좋아합니다.</p>
+                    <p>혁신적인 기술력과 우수한 개발 문화로 업계에서 인정받는 환경에서 저의 기술적 역량을 더욱 발전시키고 의미 있는 프로젝트에 기여하고 싶습니다.</p>
+                    <div class="tech-stack">
+                        <h3>기술 스택</h3>
+                        <div class="tech-list">
+                            <span class="tech-item">JavaScript</span>
+                            <span class="tech-item">React</span>
+                            <span class="tech-item">Node.js</span>
+                            <span class="tech-item">Python</span>
+                            <span class="tech-item">HTML/CSS</span>
+                            <span class="tech-item">Git</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="image-container">
+                        <img src="P.png" alt="김민수 프로필" class="about-profile-img">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <h4>김민수</h4>
+                                <p>소프트웨어 개발자</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 경험 섹션 -->
+    <section id="experience" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">02.</span>
+                <h2 class="section-title">경험</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="experience-content">
+                <div class="experience-tabs">
+                    <button class="tab-btn active" data-tab="hackathon">해커톤</button>
+                    <button class="tab-btn" data-tab="mentoring">멘토링</button>
+                </div>
+                <div class="experience-details">
+                    <div class="tab-content active" id="hackathon">
+                        <h3>지역 상권 활성화 앱 개발 <span class="highlight">우수상</span></h3>
+                        <p class="experience-period">대학교 3학년</p>
+                        <ul class="experience-list">
+                            <li>교내 해커톤에서 "지역 상권 활성화 앱"을 개발하여 우수상을 수상</li>
+                            <li>팀장을 맡아 5명의 팀원과 함께 48시간 동안 React Native로 모바일 앱 완성</li>
+                            <li>백엔드 API 설계부터 프론트엔드 구현까지 전 과정에 참여하여 풀스택 개발 경험</li>
+                            <li>짧은 시간 내에 팀원들의 역량을 파악하고 업무를 효율적으로 분배하는 리더십 발휘</li>
+                        </ul>
+                        <div class="tech-used">
+                            <span class="tech-tag">React Native</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">API Design</span>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="mentoring">
+                        <h3>컴퓨터공학과 학회 <span class="highlight">멘토링 활동</span></h3>
+                        <p class="experience-period">대학교 4년간</p>
+                        <ul class="experience-list">
+                            <li>컴퓨터공학과 학회에서 활동하며 후배들에게 프로그래밍을 가르치는 멘토링 진행</li>
+                            <li>복잡한 개념을 쉽게 설명하는 능력을 기를 수 있었고, 현재 팀 내에서 코드 리뷰와 기술 공유에 큰 도움</li>
+                            <li>주니어 개발자들의 성장을 돕고 지식 공유 문화를 만들어가는 경험</li>
+                        </ul>
+                        <div class="tech-used">
+                            <span class="tech-tag">멘토링</span>
+                            <span class="tech-tag">코드 리뷰</span>
+                            <span class="tech-tag">기술 공유</span>
+                            <span class="tech-tag">리더십</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 프로젝트 섹션 -->
+    <section id="work" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">03.</span>
+                <h2 class="section-title">주요 프로젝트</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="projects-grid">
+                <div class="project-item">
+                    <div class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-placeholder">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>지역 상권 활성화 앱</h3>
+                        <p>React Native를 사용하여 개발한 모바일 애플리케이션으로, 지역 상권 활성화를 위한 플랫폼을 제공합니다.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">React Native</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">MongoDB</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-item">
+                    <div class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-placeholder">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>웹 포트폴리오</h3>
+                        <p>개인 포트폴리오 웹사이트로, React와 Node.js를 활용하여 반응형 웹 애플리케이션을 개발했습니다.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">CSS3</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-item">
+                    <div class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-placeholder">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>이커머스 플랫폼</h3>
+                        <p>온라인 쇼핑몰 플랫폼으로, 사용자 친화적인 UI/UX와 안전한 결제 시스템을 구현했습니다.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Vue.js</span>
+                            <span class="tech-tag">Express</span>
+                            <span class="tech-tag">MySQL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 연락처 섹션 -->
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">04.</span>
+                <h2 class="section-title">연락하기</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="contact-content">
+                <div class="contact-text">
+                    <h3>함께 일하고 싶으시다면</h3>
+                    <p>새로운 도전과 성장의 기회를 찾고 있습니다. 언제든지 연락주세요!</p>
+                    <div class="contact-philosophy">
+                        <h4>"기술은 사람을 위해 존재한다"</h4>
+                        <p>개발자로서 항상 사용자의 관점에서 생각하려 노력합니다. 아무리 기술적으로 뛰어난 코드라도 실제 사용자에게 도움이 되지 않는다면 의미가 없다고 생각합니다.</p>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <a href="mailto:kimminsoo@example.com" class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>kimminsoo@example.com</span>
+                    </a>
+                    <a href="tel:010-1234-5678" class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>010-1234-5678</span>
+                    </a>
+                    <a href="https://github.com/kimminsoo" class="contact-item" target="_blank">
+                        <i class="fab fa-github"></i>
+                        <span>github.com/kimminsoo</span>
+                    </a>
+                    <a href="https://linkedin.com/in/kimminsoo" class="contact-item" target="_blank">
+                        <i class="fab fa-linkedin"></i>
+                        <span>linkedin.com/in/kimminsoo</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>Designed & Built by 김민수</p>
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#experience">Experience</a>
+                    <a href="#work">Work</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

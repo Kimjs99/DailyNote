@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Clone</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Billabong&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="instagram-style.css">
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // Mock data for posts
+        const postsData = [
+            {
+                id: 1,
+                username: "jane_doe",
+                profilePic: "../shared-assets/images/character-images/woman.png",
+                image: "../shared-assets/images/Images/img02.jpg",
+                likes: 1247,
+                caption: "Beautiful sunset today! 🌅 #nature #sunset",
+                comments: [
+                    { username: "john_smith", text: "Amazing shot!" },
+                    { username: "photo_lover", text: "So beautiful! 😍" }
+                ],
+                timestamp: "2시간 전"
+            },
+            {
+                id: 2,
+                username: "mike_wilson",
+                profilePic: "../shared-assets/images/character-images/man.png",
+                image: "../shared-assets/images/Images/img03.jpg",
+                likes: 892,
+                caption: "Coffee break ☕ #coffee #morning",
+                comments: [
+                    { username: "coffee_addict", text: "Perfect morning!" }
+                ],
+                timestamp: "4시간 전"
+            },
+            {
+                id: 3,
+                username: "sarah_kim",
+                profilePic: "../shared-assets/images/character-images/woman.png",
+                image: "../shared-assets/images/Images/img01.png",
+                likes: 2156,
+                caption: "New art project completed! 🎨 #art #creative",
+                comments: [
+                    { username: "art_lover", text: "Incredible work!" },
+                    { username: "creative_soul", text: "Love this style!" }
+                ],
+                timestamp: "6시간 전"
+            },
+            {
+                id: 4,
+                username: "alex_chen",
+                profilePic: "../shared-assets/images/character-images/man.png",
+                image: "../shared-assets/images/Images/img05.jpg",
+                likes: 743,
+                caption: "Weekend vibes 🌟 #weekend #relax",
+                comments: [],
+                timestamp: "8시간 전"
+            },
+            {
+                id: 5,
+                username: "emma_jones",
+                profilePic: "../shared-assets/images/character-images/woman.png",
+                image: "../shared-assets/images/Images/img06.jpg",
+                likes: 1834,
+                caption: "Food adventure continues! 🍕 #food #delicious",
+                comments: [
+                    { username: "foodie", text: "Looks delicious!" }
+                ],
+                timestamp: "1일 전"
+            }
+        ];
+
+        // Stories data
+        const storiesData = [
+            { id: 1, username: "your_story", profilePic: "../shared-assets/images/character-images/woman.png", isYourStory: true },
+            { id: 2, username: "jane_doe", profilePic: "../shared-assets/images/character-images/woman.png" },
+            { id: 3, username: "mike_wilson", profilePic: "../shared-assets/images/character-images/man.png" },
+            { id: 4, username: "sarah_kim", profilePic: "../shared-assets/images/character-images/woman.png" },
+            { id: 5, username: "alex_chen", profilePic: "../shared-assets/images/character-images/man.png" },
+            { id: 6, username: "emma_jones", profilePic: "../shared-assets/images/character-images/woman.png" }
+        ];
+
+        // Post component
+        function Post({ post }) {
+            const [isLiked, setIsLiked] = useState(false);
+            const [likes, setLikes] = useState(post.likes);
+            const [showComments, setShowComments] = useState(false);
+
+            const handleLike = () => {
+                if (isLiked) {
+                    setLikes(likes - 1);
+                } else {
+                    setLikes(likes + 1);
+                }
+                setIsLiked(!isLiked);
+            };
+
+            return (
+                <div className="post">
+                    <div className="post-header">
+                        <div className="post-user">
+                            <img src={post.profilePic} alt={post.username} className="profile-pic" />
+                            <span className="username">{post.username}</span>
+                        </div>
+                        <div className="post-options">⋯</div>
+                    </div>
+                    
+                    <div className="post-image">
+                        <img src={post.image} alt="Post" />
+                    </div>
+                    
+                    <div className="post-actions">
+                        <div className="action-buttons">
+                            <button onClick={handleLike} className={`action-btn ${isLiked ? 'liked' : ''}`}>
+                                {isLiked ? '❤️' : '🤍'}
+                            </button>
+                            <button className="action-btn">💬</button>
+                            <button className="action-btn">📤</button>
+                        </div>
+                        <button className="action-btn bookmark">🔖</button>
+                    </div>
+                    
+                    <div className="post-content">
+                        <div className="likes">{likes.toLocaleString()}명이 좋아합니다</div>
+                        <div className="caption">
+                            <span className="username">{post.username}</span>
+                            <span>{post.caption}</span>
+                        </div>
+                        {post.comments.length > 0 && (
+                            <button 
+                                className="view-comments" 
+                                onClick={() => setShowComments(!showComments)}
+                            >
+                                댓글 {post.comments.length}개 모두 보기
+                            </button>
+                        )}
+                        {showComments && (
+                            <div className="comments">
+                                {post.comments.map((comment, index) => (
+                                    <div key={index} className="comment">
+                                        <span className="username">{comment.username}</span>
+                                        <span>{comment.text}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                        <div className="timestamp">{post.timestamp}</div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Story component
+        function Story({ story }) {
+            return (
+                <div className={`story ${story.isYourStory ? 'your-story' : ''}`}>
+                    <div className="story-image">
+                        <img src={story.profilePic} alt={story.username} />
+                    </div>
+                    <div className="story-username">
+                        {story.isYourStory ? '내 스토리' : story.username}
+                    </div>
+                </div>
+            );
+        }
+
+        // Main App component
+        function App() {
+            return (
+                <div className="app">
+                    <header className="header">
+                        <div className="header-content">
+                            <h1 className="logo">Instagram</h1>
+                            <div className="header-actions">
+                                <button className="header-btn">🏠</button>
+                                <button className="header-btn">💬</button>
+                                <button className="header-btn">➕</button>
+                                <button className="header-btn">❤️</button>
+                                <button className="header-btn">👤</button>
+                            </div>
+                        </div>
+                    </header>
+
+                    <main className="main">
+                        <div className="stories">
+                            {storiesData.map(story => (
+                                <Story key={story.id} story={story} />
+                            ))}
+                        </div>
+
+                        <div className="feed">
+                            {postsData.map(post => (
+                                <Post key={post.id} post={post} />
+                            ))}
+                        </div>
+                    </main>
+                </div>
+            );
+        }
+
+        // Render the app
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

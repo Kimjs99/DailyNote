@@ -1,0 +1,367 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(135deg, #f5f3f0 0%, #ebe8e4 50%, #e8e5e1 100%);
+    color: #2c2c2c;
+    line-height: 1.4;
+    min-height: 100vh;
+}
+
+.app {
+    max-width: 614px;
+    margin: 0 auto;
+    background-color: #fefefe;
+    min-height: 100vh;
+    box-shadow: 0 0 20px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.06);
+    border-radius: 0;
+}
+
+/* Header */
+.header {
+    position: sticky;
+    top: 0;
+    background-color: #fefefe;
+    border-bottom: 1px solid #e8e5e1;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    max-width: 614px;
+    margin: 0 auto;
+    height: 60px;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 600;
+    font-family: 'Billabong', cursive;
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.header-btn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.header-btn:hover {
+    background-color: #f5f5f5;
+    transform: scale(1.05);
+}
+
+.header-btn:active {
+    transform: scale(0.95);
+}
+
+/* Main content */
+.main {
+    padding: 0;
+}
+
+/* Stories */
+.stories {
+    display: flex;
+    padding: 16px 0 0 16px;
+    gap: 16px;
+    overflow-x: auto;
+    border-bottom: 1px solid #e8e5e1;
+    background-color: #fefefe;
+    padding-bottom: 16px;
+}
+
+.stories::-webkit-scrollbar {
+    display: none;
+}
+
+.story {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 66px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.story-image {
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    padding: 2px;
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.story-image:hover {
+    transform: scale(1.05);
+}
+
+.story-image img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+}
+
+.your-story .story-image {
+    background: #e8e5e1;
+    border: 2px solid #e8e5e1;
+}
+
+.your-story .story-image::after {
+    content: '+';
+    position: absolute;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    background: #0095f6;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 0;
+    right: 0;
+    border: 2px solid white;
+}
+
+.story-username {
+    font-size: 12px;
+    margin-top: 6px;
+    text-align: center;
+    max-width: 66px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #2c2c2c;
+    font-weight: 400;
+}
+
+/* Feed */
+.feed {
+    background-color: #fefefe;
+}
+
+.post {
+    border-bottom: 1px solid #e8e5e1;
+    margin-bottom: 0;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    height: 60px;
+}
+
+.post-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile-pic {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #e8e5e1;
+}
+
+.username {
+    font-weight: 600;
+    font-size: 14px;
+    color: #2c2c2c;
+}
+
+.post-options {
+    font-size: 16px;
+    cursor: pointer;
+    padding: 8px;
+    color: #2c2c2c;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.post-image {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+}
+
+.post-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.post-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    height: 50px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 18px;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 8px;
+    transition: all 0.2s ease;
+    border-radius: 50%;
+}
+
+.action-btn:hover {
+    transform: scale(1.1);
+    background-color: #f5f5f5;
+}
+
+.action-btn:active {
+    transform: scale(0.95);
+}
+
+.action-btn.liked {
+    color: #ed4956;
+}
+
+.bookmark {
+    margin-left: auto;
+    font-size: 22px;
+}
+
+.post-content {
+    padding: 0 16px 20px;
+}
+
+.likes {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #2c2c2c;
+}
+
+.caption {
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    color: #2c2c2c;
+}
+
+.caption .username {
+    margin-right: 8px;
+    font-weight: 600;
+}
+
+.view-comments {
+    background: none;
+    border: none;
+    color: #8e8e8e;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: 8px;
+    padding: 0;
+    font-weight: 400;
+}
+
+.view-comments:hover {
+    color: #2c2c2c;
+}
+
+.comments {
+    margin-bottom: 8px;
+}
+
+.comment {
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 4px;
+    color: #2c2c2c;
+}
+
+.comment .username {
+    margin-right: 8px;
+    font-weight: 600;
+}
+
+.timestamp {
+    color: #8e8e8e;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
+    margin-top: 4px;
+}
+
+/* Responsive design */
+@media (max-width: 614px) {
+    .app {
+        max-width: 100%;
+    }
+    
+    .header-content {
+        padding: 12px;
+    }
+    
+    .stories {
+        padding: 12px;
+    }
+    
+    .post-header,
+    .post-actions,
+    .post-content {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}
+
+/* Loading and interaction states */
+.action-btn:active {
+    transform: scale(0.95);
+}
+
+.story:active {
+    transform: scale(0.95);
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
