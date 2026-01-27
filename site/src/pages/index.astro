@@ -17,6 +17,7 @@ const recent = posts.slice(0, 3);
 const categories = groupByCategory(posts);
 const tags = groupByTag(posts);
 const months = groupByMonth(posts);
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout>
@@ -25,7 +26,10 @@ const months = groupByMonth(posts);
       <div class="hero-grid">
         <div>
           <div class="hero-icon">
-            <img src="/blogicon.png" alt="블로그 대표 아이콘" />
+            <img
+              src={`${import.meta.env.BASE_URL}blogicon.png`}
+              alt="블로그 대표 아이콘"
+            />
           </div>
           <p class="eyebrow">Minimal Editorial</p>
           <h1>천천히 써 내려가는 사려 깊은 하루.</h1>
@@ -34,9 +38,9 @@ const months = groupByMonth(posts);
             공간입니다.
           </p>
           <div class="hero-actions">
-            <a class="button" href="/blog">아카이브 보기</a>
+            <a class="button" href={`${baseUrl}blog/`}>아카이브 보기</a>
             {featured && (
-              <a class="ghost" href={`/blog/${featured.slug}`}>
+              <a class="ghost" href={`${baseUrl}blog/${featured.slug}/`}>
                 추천 글: {featured.data.title}
               </a>
             )}
@@ -74,7 +78,7 @@ const months = groupByMonth(posts);
       <h2 class="section-title">월별 아카이브</h2>
       <div class="archive-list">
         {months.map((month) => (
-          <a class="archive-item" href={`/blog?month=${month.key}`}>
+          <a class="archive-item" href={`${baseUrl}blog/?month=${month.key}`}>
             <span>{month.label}</span>
             <span class="archive-count">{month.items.length}개</span>
           </a>
@@ -92,7 +96,9 @@ const months = groupByMonth(posts);
             <div>
               <p class="eyebrow">{items.length}개</p>
               <h3>
-                <a href={`/categories/${slugify(category)}`}>{category}</a>
+                <a href={`${baseUrl}categories/${slugify(category)}/`}>
+                  {category}
+                </a>
               </h3>
             </div>
           ))}
@@ -102,7 +108,7 @@ const months = groupByMonth(posts);
         <h2 class="section-title">인기 태그</h2>
         <div class="tag-row">
           {tags.map(([tag]) => (
-            <a class="tag" href={`/tags/${slugify(tag)}`}>
+            <a class="tag" href={`${baseUrl}tags/${slugify(tag)}/`}>
               #{tag}
             </a>
           ))}

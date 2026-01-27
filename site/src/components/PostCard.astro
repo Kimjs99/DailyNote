@@ -5,14 +5,16 @@ import { estimateReadingTime, formatDate, slugify } from "../utils/content";
 const { post } = Astro.props;
 const { title, description, pubDate, tags, category } = post.data;
 const readingTime = post.data.readingTime ?? estimateReadingTime(post.body);
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <article class="post-card">
   <p class="eyebrow">
-    카테고리 · <a href={`/categories/${slugify(category)}`}>{category}</a>
+    카테고리 ·{" "}
+    <a href={`${baseUrl}categories/${slugify(category)}/`}>{category}</a>
   </p>
   <h3>
-    <a href={`/blog/${post.slug}`}>{title}</a>
+    <a href={`${baseUrl}blog/${post.slug}/`}>{title}</a>
   </h3>
   <p class="card-meta">
     {formatDate(pubDate)} · {readingTime}

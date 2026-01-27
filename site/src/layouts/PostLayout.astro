@@ -12,13 +12,15 @@ const {
   category,
   readingTime,
 } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title={title} description={description}>
   <article class="container post">
     <header class="post-header">
       <p class="eyebrow">
-        카테고리 · <a href={`/categories/${slugify(category)}`}>{category}</a>
+        카테고리 ·{" "}
+        <a href={`${baseUrl}categories/${slugify(category)}/`}>{category}</a>
       </p>
       <h1>{title}</h1>
       <p class="lede">{description}</p>

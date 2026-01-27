@@ -2,6 +2,7 @@
 import { slugify } from "../utils/content";
 
 const { tag } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
-<a class="tag" href={`/tags/${slugify(tag)}`}>#{tag}</a>
+<a class="tag" href={`${baseUrl}tags/${slugify(tag)}/`}>#{tag}</a>

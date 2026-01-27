@@ -14,6 +14,7 @@ const posts = await getBlogPosts();
 const categories = groupByCategory(posts);
 const tags = groupByTag(posts);
 const months = groupByMonth(posts);
+const baseUrl = import.meta.env.BASE_URL;
 
 const selectedTag = Astro.url.searchParams.get("tag");
 const selectedCategory = Astro.url.searchParams.get("category");
@@ -50,7 +51,7 @@ const filtered = posts.filter((post) => {
         {tags.map(([tag]) => (
           <a
             class={`filter-pill ${selectedTag === slugify(tag) ? "active" : ""}`}
-            href={`/blog?tag=${slugify(tag)}`}
+            href={`${baseUrl}blog/?tag=${slugify(tag)}`}
           >
             #{tag}
           </a>
@@ -60,7 +61,7 @@ const filtered = posts.filter((post) => {
             class={`filter-pill ${
               selectedCategory === slugify(category) ? "active" : ""
             }`}
-            href={`/blog?category=${slugify(category)}`}
+            href={`${baseUrl}blog/?category=${slugify(category)}`}
           >
             {category}
           </a>
@@ -70,13 +71,13 @@ const filtered = posts.filter((post) => {
             class={`filter-pill ${
               selectedMonth === month.key ? "active" : ""
             }`}
-            href={`/blog?month=${month.key}`}
+            href={`${baseUrl}blog/?month=${month.key}`}
           >
             {month.label}
           </a>
         ))}
         {(selectedTag || selectedCategory || selectedMonth) && (
-          <a class="filter-pill" href="/blog">
+          <a class="filter-pill" href={`${baseUrl}blog/`}>
             초기화
           </a>
         )}
@@ -106,7 +107,7 @@ const filtered = posts.filter((post) => {
       <h2 class="section-title">월별로 보기</h2>
       <div class="archive-list">
         {months.map((month) => (
-          <a class="archive-item" href={`/blog?month=${month.key}`}>
+          <a class="archive-item" href={`${baseUrl}blog/?month=${month.key}`}>
             <span>{month.label}</span>
             <span class="archive-count">{month.items.length}개</span>
           </a>

@@ -4,6 +4,7 @@ import { getBlogPosts, groupByTag, slugify } from "../../utils/content";
 
 const posts = await getBlogPosts();
 const tags = groupByTag(posts);
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="태그" description="태그로 글을 모아봅니다.">
@@ -16,7 +17,7 @@ const tags = groupByTag(posts);
           <div>
             <p class="eyebrow">{items.length}개</p>
             <h3>
-              <a href={`/tags/${slugify(tag)}`}>#{tag}</a>
+              <a href={`${baseUrl}tags/${slugify(tag)}/`}>#{tag}</a>
             </h3>
           </div>
         ))}

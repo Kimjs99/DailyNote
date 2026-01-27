@@ -4,6 +4,7 @@ import { getBlogPosts, groupByCategory, slugify } from "../../utils/content";
 
 const posts = await getBlogPosts();
 const categories = groupByCategory(posts);
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="카테고리" description="카테고리로 글을 모아봅니다.">
@@ -16,7 +17,9 @@ const categories = groupByCategory(posts);
           <div>
             <p class="eyebrow">{items.length}개</p>
             <h3>
-              <a href={`/categories/${slugify(category)}`}>{category}</a>
+              <a href={`${baseUrl}categories/${slugify(category)}/`}>
+                {category}
+              </a>
             </h3>
           </div>
         ))}

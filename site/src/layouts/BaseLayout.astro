@@ -13,13 +13,18 @@ const pageTitle = title ? `${title} · Minimal Editorial` : "Minimal Editorial";
 const metaDescription =
   description ??
   "느린 글쓰기와 디자인, 차분한 일상을 담는 미니멀 에디토리얼 블로그.";
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <!doctype html>
 <html lang="ko">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/png" href="/blogicon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      href={`${import.meta.env.BASE_URL}blogicon.png`}
+    />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={metaDescription} />
     <meta name="generator" content={Astro.generator} />
@@ -30,13 +35,21 @@ const metaDescription =
     <div class="page">
       <header class="site-header">
         <div class="container header-inner">
-          <a class="logo" href="/">Minimal Editorial</a>
+          <a class="logo" href={baseUrl}>Minimal Editorial</a>
           <nav class="nav">
-            <a class={`nav-link ${isHome ? "active" : ""}`} href="/">홈</a>
-            <a class={`nav-link ${isAbout ? "active" : ""}`} href="/about">
+            <a class={`nav-link ${isHome ? "active" : ""}`} href={baseUrl}>
+              홈
+            </a>
+            <a
+              class={`nav-link ${isAbout ? "active" : ""}`}
+              href={`${baseUrl}about/`}
+            >
               소개
             </a>
-            <a class={`nav-link ${isBlog ? "active" : ""}`} href="/blog">
+            <a
+              class={`nav-link ${isBlog ? "active" : ""}`}
+              href={`${baseUrl}blog/`}
+            >
               블로그
             </a>
           </nav>
@@ -49,9 +62,9 @@ const metaDescription =
         <div class="container footer-inner">
           <p>Minimal Editorial — 천천히 쓰는 글, 더 선명한 하루.</p>
           <div class="footer-links">
-            <a href="/tags">태그</a>
-            <a href="/categories">카테고리</a>
-            <a href="/blog">아카이브</a>
+            <a href={`${baseUrl}tags/`}>태그</a>
+            <a href={`${baseUrl}categories/`}>카테고리</a>
+            <a href={`${baseUrl}blog/`}>아카이브</a>
           </div>
         </div>
       </footer>
