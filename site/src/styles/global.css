@@ -324,6 +324,12 @@ main {
   margin: 0 0 0.6rem;
 }
 
+/* 소개 문단: 한글이 단어 중간에서 잘리지 않도록 */
+.about-intro .lede,
+.about-intro p {
+  word-break: keep-all;
+}
+
 .post {
   padding: 3rem 0 4rem;
 }
