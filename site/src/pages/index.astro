@@ -71,21 +71,6 @@ const displayMonth = featured ? featured.data.pubDate.getMonth() + 1 : now.getMo
 
   <section class="section">
     <div class="container panel">
-      <h2 class="section-title">글 쓴 날</h2>
-      <p class="lede" style="max-width: none; margin-bottom: 1rem;">
-        달력에 표시된 날짜를 누르면 그달 글 목록으로 이동합니다.
-      </p>
-      <Calendar
-        postDateKeys={postDateKeys}
-        year={displayYear}
-        month={displayMonth}
-        baseUrl={baseUrl}
-      />
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container panel">
       <h2 class="section-title">최신 글</h2>
       <div class="grid">
         {recent.map((post) => (
@@ -96,15 +81,27 @@ const displayMonth = featured ? featured.data.pubDate.getMonth() + 1 : now.getMo
   </section>
 
   <section class="section">
-    <div class="container panel">
-      <h2 class="section-title">월별 아카이브</h2>
-      <div class="archive-list">
-        {months.map((month) => (
-          <a class="archive-item" href={`${baseUrl}blog/?month=${month.key}`}>
-            <span>{month.label}</span>
-            <span class="archive-count">{month.items.length}개</span>
-          </a>
-        ))}
+    <div class="container panel grid two">
+      <div>
+        <h2 class="section-title">글 쓴 날</h2>
+        <p class="lede calendar-lede">표시된 날을 누르면 그달 글로 이동합니다.</p>
+        <Calendar
+          postDateKeys={postDateKeys}
+          year={displayYear}
+          month={displayMonth}
+          baseUrl={baseUrl}
+        />
+      </div>
+      <div>
+        <h2 class="section-title">월별 아카이브</h2>
+        <div class="archive-list">
+          {months.map((month) => (
+            <a class="archive-item" href={`${baseUrl}blog/?month=${month.key}`}>
+              <span>{month.label}</span>
+              <span class="archive-count">{month.items.length}개</span>
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   </section>
@@ -139,3 +136,10 @@ const displayMonth = featured ? featured.data.pubDate.getMonth() + 1 : now.getMo
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .calendar-lede {
+    margin-bottom: 0.6rem;
+    font-size: 0.88rem;
+  }
+</style>

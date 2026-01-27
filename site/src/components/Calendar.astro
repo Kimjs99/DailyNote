@@ -67,47 +67,49 @@ const hrefMonth = monthKey(year, month);
 
 <style>
   .post-calendar {
-    font-size: 0.95rem;
+    font-size: 0.8rem;
+    max-width: 192px;
   }
 
   .post-calendar-title {
     font-family: "Manrope", system-ui, sans-serif;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: var(--ink);
-    margin: 0 0 0.75rem;
+    margin: 0 0 0.4rem;
     text-align: center;
   }
 
   .post-calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 2px;
-    max-width: 320px;
-    margin: 0 auto;
+    gap: 1px;
+    max-width: 192px;
   }
 
   .post-calendar-weekday {
     text-align: center;
-    font-size: 0.7rem;
+    font-size: 0.58rem;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
     color: var(--muted);
-    padding: 0.35rem 0;
+    padding: 0.2rem 0;
   }
 
   .post-calendar-day {
-    aspect-ratio: 1;
+    min-height: 1.6rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
+    border-radius: 6px;
     color: var(--muted);
     font-variant-numeric: tabular-nums;
+    font-size: 0.75rem;
   }
 
   .post-calendar-day--blank {
     visibility: hidden;
+    min-height: 1.6rem;
   }
 
   .post-calendar-day--has-post {
@@ -120,7 +122,7 @@ const hrefMonth = monthKey(year, month);
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100%;
+    min-height: 1.6rem;
     color: inherit;
     text-decoration: none;
     border-radius: inherit;
@@ -136,15 +138,15 @@ const hrefMonth = monthKey(year, month);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.4rem;
-    margin: 0.75rem 0 0;
-    font-size: 0.78rem;
+    gap: 0.3rem;
+    margin: 0.4rem 0 0;
+    font-size: 0.65rem;
     color: var(--muted);
   }
 
   .post-calendar-legend-dot {
-    width: 8px;
-    height: 8px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
   }
 
