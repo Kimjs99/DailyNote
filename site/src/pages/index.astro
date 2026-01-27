@@ -1,0 +1,113 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostCard from "../components/PostCard.astro";
+import {
+  estimateReadingTime,
+  formatDate,
+  getBlogPosts,
+  groupByCategory,
+  groupByMonth,
+  groupByTag,
+  slugify,
+} from "../utils/content";
+
+const posts = await getBlogPosts();
+const featured = posts[0];
+const recent = posts.slice(0, 3);
+const categories = groupByCategory(posts);
+const tags = groupByTag(posts);
+const months = groupByMonth(posts);
+---
+
+<BaseLayout>
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-icon">
+            <img src="/blogicon.png" alt="블로그 대표 아이콘" />
+          </div>
+          <p class="eyebrow">Minimal Editorial</p>
+          <h1>천천히 써 내려가는 사려 깊은 하루.</h1>
+          <p class="lede">
+            공예와 루틴, 그리고 작은 선택들이 만드는 고요한 일상을 기록하는
+            공간입니다.
+          </p>
+          <div class="hero-actions">
+            <a class="button" href="/blog">아카이브 보기</a>
+            {featured && (
+              <a class="ghost" href={`/blog/${featured.slug}`}>
+                추천 글: {featured.data.title}
+              </a>
+            )}
+          </div>
+        </div>
+        {featured && (
+          <div class="panel hero-card">
+            <p class="eyebrow">추천 이야기</p>
+            <h2>{featured.data.title}</h2>
+            <p class="card-description">{featured.data.description}</p>
+            <p class="card-meta">
+              {formatDate(featured.data.pubDate)} ·{" "}
+              {featured.data.readingTime ??
+                estimateReadingTime(featured.body)}
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container panel">
+      <h2 class="section-title">최신 글</h2>
+      <div class="grid">
+        {recent.map((post) => (
+          <PostCard post={post} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container panel">
+      <h2 class="section-title">월별 아카이브</h2>
+      <div class="archive-list">
+        {months.map((month) => (
+          <a class="archive-item" href={`/blog?month=${month.key}`}>
+            <span>{month.label}</span>
+            <span class="archive-count">{month.items.length}개</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid two">
+      <div class="panel">
+        <h2 class="section-title">카테고리</h2>
+        <div class="grid">
+          {categories.map(([category, items]) => (
+            <div>
+              <p class="eyebrow">{items.length}개</p>
+              <h3>
+                <a href={`/categories/${slugify(category)}`}>{category}</a>
+              </h3>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div class="panel">
+        <h2 class="section-title">인기 태그</h2>
+        <div class="tag-row">
+          {tags.map(([tag]) => (
+            <a class="tag" href={`/tags/${slugify(tag)}`}>
+              #{tag}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

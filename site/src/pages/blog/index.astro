@@ -1,0 +1,117 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../../components/PostCard.astro";
+import {
+  formatMonthKey,
+  getBlogPosts,
+  groupByCategory,
+  groupByMonth,
+  groupByTag,
+  slugify,
+} from "../../utils/content";
+
+const posts = await getBlogPosts();
+const categories = groupByCategory(posts);
+const tags = groupByTag(posts);
+const months = groupByMonth(posts);
+
+const selectedTag = Astro.url.searchParams.get("tag");
+const selectedCategory = Astro.url.searchParams.get("category");
+const selectedMonth = Astro.url.searchParams.get("month");
+const selectedMonthLabel = selectedMonth
+  ? months.find((month) => month.key === selectedMonth)?.label
+  : null;
+
+const filtered = posts.filter((post) => {
+  const matchTag = selectedTag
+    ? post.data.tags.map((tag) => slugify(tag)).includes(selectedTag)
+    : true;
+  const matchCategory = selectedCategory
+    ? slugify(post.data.category) === selectedCategory
+    : true;
+  const matchMonth = selectedMonth
+    ? formatMonthKey(post.data.pubDate) === selectedMonth
+    : true;
+  return matchTag && matchCategory && matchMonth;
+});
+---
+
+<BaseLayout title="블로그" description="에세이와 기록, 고요한 생각을 모읍니다.">
+  <section class="section">
+    <div class="container panel">
+      <p class="eyebrow">아카이브</p>
+      <h1>블로그</h1>
+      <p class="lede">
+        전체 글을 둘러보세요. 마음에 드는 주제로 필터하거나 천천히
+        흘러가듯 읽어도 좋습니다.
+      </p>
+      <div class="filters">
+        <span class="eyebrow">필터</span>
+        {tags.map(([tag]) => (
+          <a
+            class={`filter-pill ${selectedTag === slugify(tag) ? "active" : ""}`}
+            href={`/blog?tag=${slugify(tag)}`}
+          >
+            #{tag}
+          </a>
+        ))}
+        {categories.map(([category]) => (
+          <a
+            class={`filter-pill ${
+              selectedCategory === slugify(category) ? "active" : ""
+            }`}
+            href={`/blog?category=${slugify(category)}`}
+          >
+            {category}
+          </a>
+        ))}
+        {months.map((month) => (
+          <a
+            class={`filter-pill ${
+              selectedMonth === month.key ? "active" : ""
+            }`}
+            href={`/blog?month=${month.key}`}
+          >
+            {month.label}
+          </a>
+        ))}
+        {(selectedTag || selectedCategory || selectedMonth) && (
+          <a class="filter-pill" href="/blog">
+            초기화
+          </a>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container panel">
+      <h2 class="section-title">
+        {filtered.length}개
+      </h2>
+      {selectedMonthLabel && (
+        <p class="lede">{selectedMonthLabel}에 발행된 글입니다.</p>
+      )}
+      <div class="grid">
+        {filtered.map((post) => (
+          <PostCard post={post} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container panel">
+      <p class="eyebrow">아카이브</p>
+      <h2 class="section-title">월별로 보기</h2>
+      <div class="archive-list">
+        {months.map((month) => (
+          <a class="archive-item" href={`/blog?month=${month.key}`}>
+            <span>{month.label}</span>
+            <span class="archive-count">{month.items.length}개</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,26 @@
+---
+import TagPill from "./TagPill.astro";
+import { estimateReadingTime, formatDate, slugify } from "../utils/content";
+
+const { post } = Astro.props;
+const { title, description, pubDate, tags, category } = post.data;
+const readingTime = post.data.readingTime ?? estimateReadingTime(post.body);
+---
+
+<article class="post-card">
+  <p class="eyebrow">
+    카테고리 · <a href={`/categories/${slugify(category)}`}>{category}</a>
+  </p>
+  <h3>
+    <a href={`/blog/${post.slug}`}>{title}</a>
+  </h3>
+  <p class="card-meta">
+    {formatDate(pubDate)} · {readingTime}
+  </p>
+  <p class="card-description">{description}</p>
+  <div class="tag-row">
+    {tags.map((tag) => (
+      <TagPill tag={tag} />
+    ))}
+  </div>
+</article>

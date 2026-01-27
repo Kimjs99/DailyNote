@@ -1,0 +1,7 @@
+---
+import { slugify } from "../utils/content";
+
+const { tag } = Astro.props;
+---
+
+<a class="tag" href={`/tags/${slugify(tag)}`}>#{tag}</a>

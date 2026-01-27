@@ -1,0 +1,43 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import TagPill from "../components/TagPill.astro";
+import { formatDate, slugify } from "../utils/content";
+
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  tags,
+  category,
+  readingTime,
+} = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="container post">
+    <header class="post-header">
+      <p class="eyebrow">
+        카테고리 · <a href={`/categories/${slugify(category)}`}>{category}</a>
+      </p>
+      <h1>{title}</h1>
+      <p class="lede">{description}</p>
+      <div class="post-meta">
+        <span>
+          {formatDate(pubDate)} · {readingTime}
+        </span>
+        {updatedDate && (
+          <span class="updated">업데이트 {formatDate(updatedDate)}</span>
+        )}
+      </div>
+      <div class="tag-row">
+        {tags.map((tag) => (
+          <TagPill tag={tag} />
+        ))}
+      </div>
+    </header>
+    <section class="post-body">
+      <slot />
+    </section>
+  </article>
+</BaseLayout>

@@ -1,0 +1,9 @@
+{
+  "name": "ui-agent-1",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm -C site dev -- --port $port --host",
+    "build": "pnpm -C site build",
+    "preview": "pnpm -C site preview -- --port $port --host"
+  }
+}

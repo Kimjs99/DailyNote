@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getBlogPosts, groupByCategory, slugify } from "../../utils/content";
+
+const posts = await getBlogPosts();
+const categories = groupByCategory(posts);
+---
+
+<BaseLayout title="카테고리" description="카테고리로 글을 모아봅니다.">
+  <section class="section">
+    <div class="container panel">
+      <p class="eyebrow">아카이브</p>
+      <h1>카테고리</h1>
+      <div class="grid two">
+        {categories.map(([category, items]) => (
+          <div>
+            <p class="eyebrow">{items.length}개</p>
+            <h3>
+              <a href={`/categories/${slugify(category)}`}>{category}</a>
+            </h3>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
