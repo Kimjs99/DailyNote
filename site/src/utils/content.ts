@@ -90,3 +90,14 @@ export function slugify(value: string) {
     .replace(/[^\p{L}\p{N}\s-]/gu, "")
     .replace(/\s+/g, "-");
 }
+
+/** 글을 작성한 날짜들 (YYYY-MM-DD) — 달력 표시용 */
+export function getPostDateKeys(posts: CollectionEntry<"blog">[]): Set<string> {
+  const set = new Set<string>();
+  for (const post of posts) {
+    const d = post.data.pubDate;
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    set.add(key);
+  }
+  return set;
+}

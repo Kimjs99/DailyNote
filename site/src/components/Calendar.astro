@@ -1,0 +1,154 @@
+---
+interface Props {
+  postDateKeys: Set<string>;
+  year: number;
+  month: number; // 1–12
+  baseUrl: string;
+}
+
+const { postDateKeys, year, month, baseUrl } = Astro.props;
+
+const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
+const first = new Date(year, month - 1, 1);
+const last = new Date(year, month, 0);
+const startBlank = first.getDay();
+const totalDays = last.getDate();
+
+function dateKey(y: number, m: number, d: number): string {
+  return `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+}
+
+function monthKey(y: number, m: number): string {
+  return `${y}-${String(m).padStart(2, "0")}`;
+}
+
+const monthLabel = new Intl.DateTimeFormat("ko-KR", {
+  year: "numeric",
+  month: "long",
+}).format(first);
+
+const days: { day: number; key: string; hasPost: boolean }[] = [];
+for (let d = 1; d <= totalDays; d++) {
+  const key = dateKey(year, month, d);
+  days.push({ day: d, key, hasPost: postDateKeys.has(key) });
+}
+const hrefMonth = monthKey(year, month);
+---
+
+<div class="post-calendar">
+  <p class="post-calendar-title">{monthLabel}</p>
+  <div class="post-calendar-grid" role="grid" aria-label={`${monthLabel} 글 쓴 날`}>
+    {WEEKDAYS.map((w) => (
+      <span class="post-calendar-weekday" role="columnheader">{w}</span>
+    ))}
+    {Array.from({ length: startBlank }, () => (
+      <span class="post-calendar-day post-calendar-day--blank" aria-hidden="true" />
+    ))}
+    {days.map(({ day, key, hasPost }) => (
+      <span
+        class:list={["post-calendar-day", { "post-calendar-day--has-post": hasPost }]}
+        role="gridcell"
+        aria-label={hasPost ? `${day}일 글 있음` : `${day}일`}
+      >
+        {hasPost ? (
+          <a class="post-calendar-day-link" href={`${baseUrl}blog/?month=${hrefMonth}`}>
+            {day}
+          </a>
+        ) : (
+          <span>{day}</span>
+        )}
+      </span>
+    ))}
+  </div>
+  <p class="post-calendar-legend">
+    <span class="post-calendar-legend-dot post-calendar-legend-dot--has-post" /> 글을 쓴 날
+  </p>
+</div>
+
+<style>
+  .post-calendar {
+    font-size: 0.95rem;
+  }
+
+  .post-calendar-title {
+    font-family: "Manrope", system-ui, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 0.75rem;
+    text-align: center;
+  }
+
+  .post-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .post-calendar-weekday {
+    text-align: center;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    padding: 0.35rem 0;
+  }
+
+  .post-calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .post-calendar-day--blank {
+    visibility: hidden;
+  }
+
+  .post-calendar-day--has-post {
+    background: rgba(192, 139, 90, 0.18);
+    color: var(--accent-strong);
+  }
+
+  .post-calendar-day-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+    border-radius: inherit;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .post-calendar-day-link:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .post-calendar-legend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin: 0.75rem 0 0;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .post-calendar-legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .post-calendar-legend-dot--has-post {
+    background: var(--accent);
+  }
+</style>

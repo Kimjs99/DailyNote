@@ -1,10 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Calendar from "../components/Calendar.astro";
 import PostCard from "../components/PostCard.astro";
 import {
   estimateReadingTime,
   formatDate,
   getBlogPosts,
+  getPostDateKeys,
   groupByCategory,
   groupByMonth,
   groupByTag,
@@ -17,7 +19,12 @@ const recent = posts.slice(0, 3);
 const categories = groupByCategory(posts);
 const tags = groupByTag(posts);
 const months = groupByMonth(posts);
+const postDateKeys = getPostDateKeys(posts);
 const baseUrl = import.meta.env.BASE_URL;
+
+const now = new Date();
+const displayYear = featured ? featured.data.pubDate.getFullYear() : now.getFullYear();
+const displayMonth = featured ? featured.data.pubDate.getMonth() + 1 : now.getMonth() + 1;
 ---
 
 <BaseLayout>
@@ -59,6 +66,21 @@ const baseUrl = import.meta.env.BASE_URL;
           </div>
         )}
       </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container panel">
+      <h2 class="section-title">글 쓴 날</h2>
+      <p class="lede" style="max-width: none; margin-bottom: 1rem;">
+        달력에 표시된 날짜를 누르면 그달 글 목록으로 이동합니다.
+      </p>
+      <Calendar
+        postDateKeys={postDateKeys}
+        year={displayYear}
+        month={displayMonth}
+        baseUrl={baseUrl}
+      />
     </div>
   </section>
 
