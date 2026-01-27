@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카드 뒤집기 게임</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎴 카드 뒤집기 게임</h1>
+        </header>
+
+        <div class="game-info">
+            <div class="info-item">
+                <span class="label">시도 횟수:</span>
+                <span id="attempts">0</span>
+            </div>
+            <div class="info-item">
+                <span class="label">시간:</span>
+                <span id="timer">00:00</span>
+            </div>
+            <div class="info-item">
+                <span class="label">난이도:</span>
+                <select id="difficulty">
+                    <option value="easy">쉬움 (2x4)</option>
+                    <option value="medium" selected>보통 (3x4)</option>
+                    <option value="hard">어려움 (4x4)</option>
+                </select>
+            </div>
+            <div class="info-item">
+                <span class="label">카드 테마:</span>
+                <select id="cardTheme">
+                    <option value="fruits" selected>과일</option>
+                    <option value="shapes">도형</option>
+                    <option value="sports">스포츠</option>
+                    <option value="signs">표지판</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="newGameBtn" class="btn btn-primary">새 게임</button>
+            <button id="leaderboardBtn" class="btn btn-secondary">리더보드</button>
+        </div>
+
+        <div id="gameBoard" class="game-board"></div>
+
+        <div id="gameCompleteModal" class="modal">
+            <div class="modal-content">
+                <h2>🎉 게임 완료!</h2>
+                <div class="score-info">
+                    <p>시도 횟수: <span id="finalAttempts"></span></p>
+                    <p>완료 시간: <span id="finalTime"></span></p>
+                </div>
+                <div class="player-name-input">
+                    <input type="text" id="playerName" placeholder="이름을 입력하세요 (선택사항)" maxlength="20">
+                </div>
+                <div class="modal-buttons">
+                    <button id="saveScoreBtn" class="btn btn-primary">점수 저장</button>
+                    <button id="closeModalBtn" class="btn btn-secondary">닫기</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="leaderboardModal" class="modal">
+            <div class="modal-content">
+                <h2>🏆 리더보드</h2>
+                <div class="leaderboard-tabs">
+                    <button class="tab-btn active" data-difficulty="all">전체</button>
+                    <button class="tab-btn" data-difficulty="easy">쉬움</button>
+                    <button class="tab-btn" data-difficulty="medium">보통</button>
+                    <button class="tab-btn" data-difficulty="hard">어려움</button>
+                </div>
+                <div id="leaderboardList" class="leaderboard-list">
+                    <p class="loading">로딩 중...</p>
+                </div>
+                <button id="closeLeaderboardBtn" class="btn btn-secondary">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+</html>
