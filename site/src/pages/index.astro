@@ -53,30 +53,32 @@ const displayMonth = featured ? featured.data.pubDate.getMonth() + 1 : now.getMo
             )}
           </div>
         </div>
-        {featured && (
-          <div class="panel hero-card">
-            <p class="eyebrow">추천 이야기</p>
-            <h2>{featured.data.title}</h2>
-            <p class="card-description">{featured.data.description}</p>
-            <p class="card-meta">
-              {formatDate(featured.data.pubDate)} ·{" "}
-              {featured.data.readingTime ??
-                estimateReadingTime(featured.body)}
-            </p>
-          </div>
-        )}
       </div>
     </div>
   </section>
 
   <section class="section">
-    <div class="container panel">
-      <h2 class="section-title">최신 글</h2>
-      <div class="grid">
-        {recent.map((post) => (
-          <PostCard post={post} />
-        ))}
+    <div class="container latest-layout">
+      <div class="panel latest-panel">
+        <h2 class="section-title">최신 글</h2>
+        <div class="grid">
+          {recent.map((post) => (
+            <PostCard post={post} />
+          ))}
+        </div>
       </div>
+      {featured && (
+        <div class="panel hero-card featured-panel">
+          <p class="eyebrow">추천 이야기</p>
+          <h2>{featured.data.title}</h2>
+          <p class="card-description">{featured.data.description}</p>
+          <p class="card-meta">
+            {formatDate(featured.data.pubDate)} ·{" "}
+            {featured.data.readingTime ??
+              estimateReadingTime(featured.body)}
+          </p>
+        </div>
+      )}
     </div>
   </section>
 
@@ -141,5 +143,34 @@ const displayMonth = featured ? featured.data.pubDate.getMonth() + 1 : now.getMo
   .calendar-lede {
     margin-bottom: 0.6rem;
     font-size: 0.88rem;
+  }
+
+  .latest-layout {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .latest-panel {
+    max-width: 560px;
+  }
+
+  .featured-panel {
+    margin-top: 1.5rem;
+  }
+
+  @media (max-width: 980px) {
+    .latest-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .latest-panel {
+      max-width: none;
+    }
+
+    .featured-panel {
+      margin-top: 0;
+    }
   }
 </style>
